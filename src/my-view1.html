@@ -1,0 +1,52 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="my-app.html"></head><body><dom-module id="my-view1">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        margin: 24px;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #757575;
+      }
+      .circle {
+        display: inline-block;
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        background: #ddd;
+        line-height: 64px;
+        font-size: 30px;
+        color: #555;
+        text-align: center;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 16px 0;
+        color: #212121;
+      }
+    </style>
+
+    <div class="card">
+      <button on-tap="_onLogin">login</button>
+
+
+
+      <div class="circle">1</div>
+      <h1>View One</h1>
+      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
+      </p><p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+    </div>
+
+  </template>
+
+  <script>Polymer({is:"my-view1",_onLogin:function(){window.plugins.googleplus.login({scopes:"profile",webClientId:"34624700188-shojqqgimp327d2gnp0hbqt8il3hb3qt.apps.googleusercontent.com"},function(o){alert(JSON.stringify(o))},function(o){alert("error: "+o)})}});</script>
+
+</dom-module>
+</body></html>
