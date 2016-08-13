@@ -5324,7 +5324,7 @@ e._bubble()}function Bn(e,t){return $n(this,e,t,1)}function Jn(e,t){return $n(th
 
       </paper-card>
     
-      <template is="dom-if" if="[[!_hasVehicleData(vehicle)]]">
+      <template is="dom-if" if="[[!_registerAvailable(event, vehicle)]]">
         
         <div class="text-right btn-container">
           <paper-button class="btn-primary btn-lg" raised="" on-tap="_goToVehicleRegistration">Register vehicle</paper-button>
@@ -5354,7 +5354,7 @@ e._bubble()}function Bn(e,t){return $n(this,e,t,1)}function Jn(e,t){return $n(th
     </template>
   </template>
 
-  <script>Polymer({is:"event-page",properties:{event:{type:Object},vehicle:{type:Object}},observers:["_navigateToJourney(event.status, vehicle.status)"],_isEvent:function(e){return this.event&&Object.keys(e).length>0&&"CLOSED"!==e.status},_hasVehicleData:function(e){return this.vehicle&&Object.keys(e).length>0},_setVehicleStatus:function(e,t){return e?"REGISTERED"===t?"verified":t:"under verification"},_openConfirmationDialog:function(){this.$$("#confirmationDialog").open()},_showStartJourney:function(e,t,n){return"TRANSIT_FORWARD"===e&&t&&"REGISTERED"===n},_startJourney:function(e){var t=Polymer.dom(e).localTarget;t.set("disabled",!0);var n=function(){this.navigate("journey")}.bind(this);this.fire("iron-signal",{name:"update-status",data:{status:"MOVING",success:n,error:function(){t.set("disabled",!1)}}})},_navigateToJourney:function(e,t){console.log("_navigateToJourney",e,t);var n=["MOVING","HALT","EMERGENCY","PARKED"];"TRANSIT_FORWARD"!==e&&"TRANSIT_BACKWARD"!==e||n.indexOf(t)===-1||(console.log("_navigateToJourney, navigating"),this.navigate("journey"))},_goToVehicleRegistration:function(){this.navigate("vehicleRegistration")},behaviors:[window.dw.commonsUtils]});</script>
+  <script>Polymer({is:"event-page",properties:{event:{type:Object},vehicle:{type:Object}},observers:["_navigateToJourney(event.status, vehicle.status)"],_isEvent:function(e){return this.event&&Object.keys(e).length>0&&"CLOSED"!==e.status},_hasVehicleData:function(e){return this.vehicle&&Object.keys(e).length>0},_registerAvailable:function(e,t){return e.id&&!t.id&&["REGISTRATION_OPENED","TRANSIT_FORWARD"].indexOf(e.status)===-1},_setVehicleStatus:function(e,t){return e?"REGISTERED"===t?"verified":t:"under verification"},_openConfirmationDialog:function(){this.$$("#confirmationDialog").open()},_showStartJourney:function(e,t,n){return"TRANSIT_FORWARD"===e&&t&&"REGISTERED"===n},_startJourney:function(e){var t=Polymer.dom(e).localTarget;t.set("disabled",!0);var n=function(){this.navigate("journey")}.bind(this);this.fire("iron-signal",{name:"update-status",data:{status:"MOVING",success:n,error:function(){t.set("disabled",!1)}}})},_navigateToJourney:function(e,t){console.log("_navigateToJourney",e,t);var n=["MOVING","HALT","EMERGENCY","PARKED"];"TRANSIT_FORWARD"!==e&&"TRANSIT_BACKWARD"!==e||n.indexOf(t)===-1||(console.log("_navigateToJourney, navigating"),this.navigate("journey"))},_goToVehicleRegistration:function(){this.navigate("vehicleRegistration")},behaviors:[window.dw.commonsUtils]});</script>
 </dom-module>
 <iron-iconset-svg name="paper-dropdown-menu" size="24">
 <svg><defs>
@@ -5486,7 +5486,7 @@ e._bubble()}function Bn(e,t){return $n(this,e,t,1)}function Jn(e,t){return $n(th
       }
     </style>
       <iron-meta-query key="apiBaseUrl" value="{{apiBaseUrl}}"></iron-meta-query>
-      <iron-ajax url="{{apiBaseUrl}}/vehicles" method="POST" id="ajax" content-type="application/json" body="{{reqBody}}" on-response="_onResponse"></iron-ajax>
+      <iron-ajax url="{{apiBaseUrl}}/vehicles" method="POST" id="ajax" content-type="application/json" body="{{reqBody}}" on-response="_onResponse" on-error="_showButton"></iron-ajax>
       <h1 class="display-1 text-center">Vehicle Registration</h1>
       <form is="iron-form" id="form">
         <input type="hidden" name="eventId" value="{{event.id}}">
@@ -5509,12 +5509,12 @@ e._bubble()}function Bn(e,t){return $n(this,e,t,1)}function Jn(e,t){return $n(th
         <field-select label="Taluka *" name="fieldId" type="TALUKA" fields-hash="{{fieldsHash}}" id="fieldSelect" required=""></field-select>
         
         <div class="text-right btn-container">
-          <paper-button class="btn-primary btn-lg" raised="" type="submit" on-tap="_register">REGISTER</paper-button>
+          <paper-button id="register" class="btn-primary btn-lg" raised="" type="submit" on-tap="_register">REGISTER</paper-button>
         </div>
       </form>
   </template>
 
-  <script>Polymer({is:"vehicle-registration-page",properties:{fieldsHash:{type:Object},reqBody:{type:Object}},_register:function(){var e=this.$.form.validate();if(e){var i=this.$.form.serialize(),s=this.fieldsHash[i.fieldId];console.log(s),i.districtId=s.districtId,i.sanghatId=s.sanghatId,i.stateId=s.stateId,this.set("reqBody",i),this.$.ajax.generateRequest()}},_onResponse:function(){var e=this.$.ajax.lastResponse;console.log("_onResponse:: oVehicle",e),window.localStorage.setItem("vehicleId",'"'+e.id+'"'),this.fire("vehicle-registered",{id:e.id})},behaviors:[window.dw.commonsUtils]});</script>
+  <script>Polymer({is:"vehicle-registration-page",properties:{fieldsHash:{type:Object},reqBody:{type:Object}},_register:function(){var e=this.$.form.validate();if(e){var t=this.$.form.serialize(),i=this.fieldsHash[t.fieldId];console.log(i),t.districtId=i.districtId,t.sanghatId=i.sanghatId,t.stateId=i.stateId,this.set("reqBody",t),this.toggleAttribute("hidden",!0,this.$.register),this.$.ajax.generateRequest()}},_onResponse:function(){var e=this.$.ajax.lastResponse;console.log("_onResponse:: oVehicle",e),window.localStorage.setItem("vehicleId",'"'+e.id+'"'),this.fire("vehicle-registered",{id:e.id}),this._showButton()},_showButton:function(){this.toggleAttribute("hidden",!1,this.$.register)},behaviors:[window.dw.commonsUtils]});</script>
 </dom-module>
 <script>Polymer.IronMenubarBehaviorImpl={hostAttributes:{role:"menubar"},keyBindings:{left:"_onLeftKey",right:"_onRightKey"},_onUpKey:function(e){this.focusedItem.click(),e.detail.keyboardEvent.preventDefault()},_onDownKey:function(e){this.focusedItem.click(),e.detail.keyboardEvent.preventDefault()},get _isRTL(){return"rtl"===window.getComputedStyle(this).direction},_onLeftKey:function(e){this._isRTL?this._focusNext():this._focusPrevious(),e.detail.keyboardEvent.preventDefault()},_onRightKey:function(e){this._isRTL?this._focusPrevious():this._focusNext(),e.detail.keyboardEvent.preventDefault()},_onKeydown:function(e){this.keyboardEventMatchesKeys(e,"up down left right esc")||this._focusWithKeyboardEvent(e)}},Polymer.IronMenubarBehavior=[Polymer.IronMenuBehavior,Polymer.IronMenubarBehaviorImpl];</script>
 <iron-iconset-svg name="paper-tabs" size="24">
