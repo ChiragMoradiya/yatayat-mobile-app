@@ -4,11 +4,11 @@
   <meta name="msapplication-tap-highlight" content="no">
   <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
   
-  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; media-src *">
+  
   
   
 
-  <title>My App</title>
+  <title>Yatayat</title>
 
   <link rel="shortcut icon" sizes="32x32" href="/images/app-icon-32.png">
 
@@ -19,24 +19,16 @@
 
   <link rel="import" href="src/mobile-app.html">
 
-  <style>
-
+  <style is="custom-style" include="iron-flex iron-positioning">
     body {
-      margin: 0;
-      font-family: 'Roboto', 'Noto', sans-serif;
-      line-height: 1.5;
-      min-height: 100vh;
+      @apply(--paper-font-body1);
       background-color: #eee;
     }
-
   </style>
-
 </head>
-<body>
 
-  <mobile-app></mobile-app>
-  <script type="text/javascript" src="cordova.js"></script>
-  
-
+<body class="layout vertical fullbleed">
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript">function initApp(){var e=document.createElement("mobile-app");e.setAttribute("class","flex"),document.body.appendChild(e)}window.cordova?document.addEventListener("deviceready",initApp,!1):initApp();</script>
 
 </body></html>
