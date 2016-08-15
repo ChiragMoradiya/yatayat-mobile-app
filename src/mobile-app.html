@@ -6454,7 +6454,7 @@ e._bubble()}function Bn(e,t){return $n(this,e,t,1)}function Jn(e,t){return $n(th
 	<template is="dom-repeat" items="{{vehicle.pathPoints}}" filter="[[_filterByDirection(event)]]" sort="[[_sortBySequence(event)]]">
 		<paper-icon-item>
 	    	<iron-icon icon="av:fiber-manual-record" item-icon=""></iron-icon>
-	    	[[item.name]]
+	    	[[item.routePointName]]
 		</paper-icon-item>
 	</template>
 
@@ -6762,7 +6762,7 @@ e._bubble()}function Bn(e,t){return $n(this,e,t,1)}function Jn(e,t){return $n(th
     </template>
   </template>
 
-  <script>Polymer({is:"journey-page",properties:{event:{type:Object},vehicle:{type:Object},selectedTab:{type:Number,value:1}},observers:["_navigateToEvent(event.status, vehicle.status)"],_showPage:function(t,e){return console.log("vehicleStatus",t,"eventStatus",e),("TRANSIT_FORWARD"===e||"TRANSIT_BACKWARD"===e)&&"REGISTERED"!==t&&"ARRIVED"!==t},_hideAllActions:function(t,e){return"TRANSIT_FORWARD"===e&&"PARKED"===t},_showMoveButton:function(t){return"HALT"===t||"EMERGENCY"===t||"PARKED"===t},_updateStatus:function(t){var e=Polymer.dom(t).localTarget,n="paper-item"===e.is?e.getAttribute("data-status"):e.parentElement.getAttribute("data-status");this._confirmHandler=function(){this.fire("iron-signal",{name:"update-status",data:{status:n,success:function(){console.log("Status has been updated successfully")},error:function(){console.error("Failed to update status")}}})}.bind(this),this.$.confirmationDialog.open()},_navigateToEvent:function(t,e){console.log("_navigateToEvent invoked",t,e),"TRANSIT_FORWARD"!==t&&"TRANSIT_BACKWARD"!==t&&this.navigate("event");var n=["MOVING","HALT","EMERGENCY","PARKED"];n.indexOf(e)===-1&&this.navigate("event")},_goBack:function(){this.navigate("event")},_onConfirm:function(){this._confirmHandler&&this._confirmHandler(),delete this._confirmHandler},behaviors:[window.dw.commonsUtils]});</script>
+  <script>Polymer({is:"journey-page",properties:{event:{type:Object},vehicle:{type:Object},selectedTab:{type:Number,value:0}},observers:["_navigateToEvent(event.status, vehicle.status)"],_showPage:function(t,e){return console.log("vehicleStatus",t,"eventStatus",e),("TRANSIT_FORWARD"===e||"TRANSIT_BACKWARD"===e)&&"REGISTERED"!==t&&"ARRIVED"!==t},_hideAllActions:function(t,e){return"TRANSIT_FORWARD"===e&&"PARKED"===t},_showMoveButton:function(t){return"HALT"===t||"EMERGENCY"===t||"PARKED"===t},_updateStatus:function(t){var e=Polymer.dom(t).localTarget,n="paper-item"===e.is?e.getAttribute("data-status"):e.parentElement.getAttribute("data-status");this._confirmHandler=function(){this.fire("iron-signal",{name:"update-status",data:{status:n,success:function(){console.log("Status has been updated successfully")},error:function(){console.error("Failed to update status")}}})}.bind(this),this.$.confirmationDialog.open()},_navigateToEvent:function(t,e){console.log("_navigateToEvent invoked",t,e),"TRANSIT_FORWARD"!==t&&"TRANSIT_BACKWARD"!==t&&this.navigate("event");var n=["MOVING","HALT","EMERGENCY","PARKED"];n.indexOf(e)===-1&&this.navigate("event")},_goBack:function(){this.navigate("event")},_onConfirm:function(){this._confirmHandler&&this._confirmHandler(),delete this._confirmHandler},behaviors:[window.dw.commonsUtils]});</script>
 </dom-module>
 <dom-module id="vehicle-status-update-service" assetpath="common/">
   <template>
