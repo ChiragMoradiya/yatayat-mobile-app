@@ -25,6 +25,7 @@
   <plugin name="cordova-plugin-statusbar" source="npm" spec="~2.1.2"/>
 <!--   <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0"/> -->
   <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1"/>
+  <plugin name="com.ququplay.websocket.websocket" spec="0.1.0" source="pgb" />
 <!--   <plugin spec="https://github.com/EddyVerbruggen/cordova-plugin-googleplus.git"/> -->
   <icon src="icon.png"/>
   <platform name="android">
